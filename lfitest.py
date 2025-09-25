@@ -59,14 +59,11 @@ logging.basicConfig(
 logger = logging.getLogger("lfi_scanner")
 
 # === Utilities ===
-
 def sha1hex(data: bytes) -> str:
     return hashlib.sha1(data).hexdigest()
 
-
 def similarity(a: str, b: str) -> float:
     return difflib.SequenceMatcher(None, a, b).ratio()
-
 
 # === HTTP helper ===
 class HTTPClient:
@@ -80,7 +77,6 @@ class HTTPClient:
         await self._session.close()
 
     async def fetch(self, method: str, url: str, **kwargs) -> Tuple[int, bytes, Dict[str,str]]:
-        # retries handled by caller
         proxy = self._proxy
         try:
             async with self._session.request(method, url, proxy=proxy, **kwargs) as resp:
@@ -89,7 +85,6 @@ class HTTPClient:
                 return resp.status, data, headers
         except Exception as e:
             raise
-
 
 # === Scanner core ===
 class Scanner:
@@ -146,16 +141,12 @@ class Scanner:
         payload_template: string containing `{INJECT}` where injection should go
         inject_location: 'path' or 'param' or 'header' etc.
         """
-        # Build target with injection
         parsed = urlparse(self.target_url)
         q = dict(parse_qsl(parsed.query, keep_blank_values=True))
 
         if inject_location == 'param':
-            # Choose a parameter to inject: we will inject into every parameter found
             if not q:
-                # nothing to inject into, return
                 return {}
-            tasks = []
             for param in q.keys():
                 new_q = q.copy()
                 new_q[param] = payload_template.replace('{INJECT}', '')
@@ -173,7 +164,6 @@ class Scanner:
                 }
                 return entry
         elif inject_location == 'path':
-            # inject into path by appending the payload
             path = parsed.path
             injected_path = (path.rstrip('/') + '/') + payload_template.replace('{INJECT}', '')
             new_parsed = ParseResult(parsed.scheme, parsed.netloc, injected_path, parsed.params, parsed.query, parsed.fragment)
@@ -189,7 +179,6 @@ class Scanner:
                 'text_snippet': text[:200]
             }
         elif inject_location == 'header':
-            # inject into a header (User-Agent and X-Forwarded-For are typical injectable headers)
             hdrs = self.headers.copy()
             hdrs['X-File-Name'] = payload_template.replace('{INJECT}', '')
             status, data, headers = await self._request_with_retries('GET', self.target_url, headers=hdrs, allow_redirects=True)
@@ -213,29 +202,23 @@ class Scanner:
         if not candidate:
             return False, {}
 
-        # Quick checks
         if candidate['status'] != baseline['status']:
-            # status differs -> interesting
             return True, {'reason': f"status_changed {baseline['status']} -> {candidate['status']}"}
 
-        # Length difference
         if baseline['length'] != 0:
             ratio = abs(candidate['length'] - baseline['length']) / baseline['length']
             if ratio > 0.15:  # 15% length difference
-                return True, {'reason': f'length_diff {baseline['length']} -> {candidate['length']}', 'ratio': ratio}
+                return True, {'reason': f"length_diff {baseline['length']} -> {candidate['length']}", 'ratio': ratio}
 
-        # Content similarity check
         sim = similarity(baseline['text'], candidate.get('text_snippet', ''))
         if sim < SIMILARITY_THRESHOLD:
             return True, {'reason': f'low_similarity {sim:.2f}'}
 
-        # Otherwise not interesting
         return False, {}
 
     async def _worker(self, baseline: Dict, payload: str, inject_location: str):
         async with self.semaphore:
             try:
-                # polite delay
                 await asyncio.sleep(self.base_delay + random.random() * 0.2)
                 candidate = await self._run_payload(payload, inject_location)
                 interesting, details = self._assess_result(baseline, candidate)
@@ -272,9 +255,7 @@ class Scanner:
         await self.http.close()
         return self.results
 
-
 # === CLI ===
-
 def load_payloads(path: str) -> List[str]:
     p = []
     with open(path, 'r', encoding='utf-8') as f:
@@ -282,13 +263,11 @@ def load_payloads(path: str) -> List[str]:
             line = line.strip()
             if not line or line.startswith('#'):
                 continue
-            # ensure template contains placeholder; if not, treat the whole line as a payload
             if '{INJECT}' not in line:
                 p.append(line)
             else:
                 p.append(line)
     return p
-
 
 def parse_headers_list(hlist: List[str]) -> Dict[str,str]:
     hdrs = {}
@@ -297,7 +276,6 @@ def parse_headers_list(hlist: List[str]) -> Dict[str,str]:
             k, v = h.split(':', 1)
             hdrs[k.strip()] = v.strip()
     return hdrs
-
 
 def main():
     parser = argparse.ArgumentParser(description='LFI / Path Traversal Scanner (template)')
@@ -309,7 +287,7 @@ def main():
     parser.add_argument('--retries', type=int, default=DEFAULT_RETRIES)
     parser.add_argument('--delay', type=float, default=DEFAULT_DELAY)
     parser.add_argument('--output', required=False, help='Output JSON file for results')
-    parser.add_argument('--header', action='append', default=[], help='Additional header in "Key: Value" form (can be repeated)')
+    parser.add_argument('--header', action='append', default=[], help='Additional header in \"Key: Value\" form (can be repeated)')
     parser.add_argument('--no-ssl-verify', action='store_true', help='Disable SSL verification (useful for intercepting proxies with self-signed certs)')
 
     args = parser.parse_args()
@@ -341,7 +319,6 @@ def main():
         logger.info(f"Saved results to {args.output}")
     else:
         print(json.dumps(results, indent=2))
-
 
 if __name__ == '__main__':
     main()
