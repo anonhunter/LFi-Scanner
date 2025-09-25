@@ -2,7 +2,6 @@
 
 Professional, low-false-positive LFI & Path Traversal scanning framework — an async, proxyable, configurable Python template for authorized security testing of file endpoints.
 
-> **Important:** Only use this tool against systems you have explicit, written authorization to test. This repository intentionally does not ship evasive bypass payloads or exploitation modules.
 
 ## Features
 - Async scanning with configurable concurrency
