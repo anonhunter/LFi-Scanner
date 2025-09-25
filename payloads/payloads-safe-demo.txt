@@ -1,0 +1,7 @@
+# Auto-generated payloads pack (for authorized testing only)
+# DO NOT run these against systems you are not authorized to test.
+
+..%2f..%2f..%2f..%2fsafe-demo.txt
+../../../../../var/www/html/safe-demo.txt
+../../../../safe-demo-file.txt
+..\..\..\..\safe-demo.txt
