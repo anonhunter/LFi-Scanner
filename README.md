@@ -125,10 +125,4 @@ Pick an appropriate license for your project (e.g., MIT, Apache-2.0). This templ
 
 ---
 
-If you want, I can:
 
-* Paste this as a `README.md` into the canvas file I already created, or
-* Produce a shorter “repo description” line for GitHub’s short description field, or
-* Generate a sample `payloads-example.txt` (benign) and add it to the repo.
-
-Which of these would you like next?
