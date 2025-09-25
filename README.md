@@ -21,7 +21,7 @@ pip install -r requirements.txt
 2. Create a payload file (see `payloads-example.txt`).
 3. Run the scanner:
 ```bash
-python3 lfi_path_traversal_scanner.py \
+python3 lfitest.py \
   --url "https://example.com/download?file=report.pdf" \
   --payloads payloads-example.txt \
   --proxy http://127.0.0.1:8080 \
