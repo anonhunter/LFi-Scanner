@@ -1,6 +1,5 @@
-# LFI / Path Traversal Scanner — README (Markdown)
+# LFI / Path Traversal Scanner 
 
-## LFI / Path Traversal Scanner
 
 **Professional, low-false-positive LFI & Path Traversal scanning framework** — an async, proxyable, configurable Python template for authorized security testing of file endpoints.
 Designed for accuracy and observability (works with Burp/mitmproxy), it uses baseline comparison and multiple injection vectors to minimize false positives while staying non-opinionated about exploit payloads.
